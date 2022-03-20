@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation.xml"
+    app:startDestination="@id/mainGame">
+    <fragment
+        android:id="@+id/titleFragment"
+        android:name="com.example.sapper.TitleFragment"
+        android:label="TitleFragment"
+        tools:layout="@layout/fragment_title">
+        <action
+            android:id="@+id/action_titleFragment_to_mainGame"
+            app:destination="@id/mainGame"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainGame"
+        android:name="com.example.sapper.MainGame"
+        android:label="fragment_main_game"
+        tools:layout="@layout/fragment_main_game" />
+</navigation>
