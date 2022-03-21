@@ -2,15 +2,12 @@ package com.example.sapper.sapper.field
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RelativeLayout
-import kotlin.coroutines.coroutineContext
 import kotlin.random.Random
 
-class SapperField(context: Context, width: Int, size: Int, bombs: Int) {
-  val context = context
+class SapperField(width: Int, size: Int, bombs: Int) {
   private lateinit var field: Array<Array<SapperCell>>
   private var width = width
   private val size = size
@@ -22,35 +19,26 @@ class SapperField(context: Context, width: Int, size: Int, bombs: Int) {
 
   private fun startGame() {
     initField()
-    fillUpField()
+    updField()
     setUpBombs()
     setUpNumericCells()
-  }
-
-  fun addAllButtonsToLayout(layout: RelativeLayout) {
-    for (row in this.field) {
-      for (cell in row) {
-        layout.addView(cell.button)
-      }
-    }
   }
 
   private fun initField() {
     val blockSize = width / size
     field = Array(size) {
       Array(size) {
-        // TODO: are we really need to fill up like this
-        SapperCell(createButton(0, 0, 0, blockSize))
+        SapperCell()
       }
     }
   }
 
-  private fun fillUpField() {
+  private fun updField() {
     val blockSize = width / size
     var counter = 1
     for (i in 0 until size) {
       for (g in 0 until size) {
-        field[i][g] = SapperCell(createButton(i, g, counter++, blockSize))
+        updSapperCell(field[i][g], i, g, counter++, blockSize)
       }
     }
   }
@@ -77,6 +65,23 @@ class SapperField(context: Context, width: Int, size: Int, bombs: Int) {
         field[i][g].bombsAroundCount = countBombAround(i, g)
       }
     }
+  }
+
+
+  private fun updSapperCell(
+    sapperCell: SapperCell,
+    row: Int,
+    column: Int,
+    id: Int,
+    blockSize: Int
+  ) {
+    val pseudoMargin = 15
+    val size = blockSize - pseudoMargin
+
+    sapperCell.id = id
+    sapperCell.topMargin = ((size + pseudoMargin) * row + pseudoMargin / 2)
+    sapperCell.leftMargin = ((size + pseudoMargin) * column + pseudoMargin / 2)
+    sapperCell.cellSize = size
   }
 
   private fun countBombAround(i: Int, g: Int): Int {
@@ -121,38 +126,37 @@ class SapperField(context: Context, width: Int, size: Int, bombs: Int) {
     return bombCounter
   }
 
-
   // TODO: Change it (Separate logic?)
-  private fun createButton(
-    countHorizontal: Int,
-    countVertical: Int,
-    id: Int,
-    blockSize: Int
-  ): Button {
-    val pseudoMargin = 15
-    val buttonSize = blockSize - pseudoMargin
-
-    val buttonDynamic = Button(context)
-    buttonDynamic.id = id
-
-    buttonDynamic.setBackgroundColor(Color.LTGRAY)
-    buttonDynamic.layoutParams = RelativeLayout.LayoutParams(
-      RelativeLayout.LayoutParams.WRAP_CONTENT,
-      ViewGroup.LayoutParams.WRAP_CONTENT
-    )
-
-    val param = buttonDynamic.layoutParams as ViewGroup.MarginLayoutParams
-    param.setMargins(
-      ((buttonSize + pseudoMargin) * countVertical + pseudoMargin / 2),
-      ((buttonSize + pseudoMargin) * countHorizontal + pseudoMargin / 2),
-      0,
-      0
-    )
-    buttonDynamic.layoutParams.width = buttonSize
-    buttonDynamic.layoutParams.height = buttonSize
-    buttonDynamic.height = buttonSize
-
-
-    return buttonDynamic
-  }
+//  private fun createButton(
+//    countHorizontal: Int,
+//    countVertical: Int,
+//    id: Int,
+//    blockSize: Int
+//  ): Button {
+//    val pseudoMargin = 15
+//    val buttonSize = blockSize - pseudoMargin
+//
+//    val buttonDynamic = Button(context)
+//    buttonDynamic.id = id
+//
+//    buttonDynamic.setBackgroundColor(Color.LTGRAY)
+//    buttonDynamic.layoutParams = RelativeLayout.LayoutParams(
+//      RelativeLayout.LayoutParams.WRAP_CONTENT,
+//      ViewGroup.LayoutParams.WRAP_CONTENT
+//    )
+//
+//    val param = buttonDynamic.layoutParams as ViewGroup.MarginLayoutParams
+//    param.setMargins(
+//      ((buttonSize + pseudoMargin) * countVertical + pseudoMargin / 2),
+//      ((buttonSize + pseudoMargin) * countHorizontal + pseudoMargin / 2),
+//      0,
+//      0
+//    )
+//    buttonDynamic.layoutParams.width = buttonSize
+//    buttonDynamic.layoutParams.height = buttonSize
+//    buttonDynamic.height = buttonSize
+//
+//
+//    return buttonDynamic
+//  }
 }

@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainGame"
-        android:name="com.example.sapper.MainGame"
+        android:name="com.example.sapper.game.MainGame"
         android:label="fragment_main_game"
         tools:layout="@layout/fragment_main_game" />
 </navigation>

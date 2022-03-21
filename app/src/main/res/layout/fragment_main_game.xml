@@ -7,12 +7,44 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainGame">
+        tools:context=".game.MainGame"
+        android:screenOrientation="portrait"
+        >
 
-        <RelativeLayout
-            android:id="@+id/main_rl"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:id="@+id/top_info"
+                android:layout_width="match_parent"
+                android:layout_height="138dp"
+                android:background="#CA2727"
+                android:backgroundTint="#A4E1CC">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </TableLayout>
+
+            <RelativeLayout
+                android:id="@+id/main_rl"
+                android:layout_width="match_parent"
+                android:layout_height="540dp" />
+        </LinearLayout>
 
     </FrameLayout>
 </layout>
