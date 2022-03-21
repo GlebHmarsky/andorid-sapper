@@ -16,34 +16,35 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TableLayout
-                android:id="@+id/top_info"
-                android:layout_width="match_parent"
-                android:layout_height="138dp"
-                android:background="#CA2727"
-                android:backgroundTint="#A4E1CC">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </TableLayout>
-
             <RelativeLayout
-                android:id="@+id/main_rl"
+                android:id="@+id/top"
                 android:layout_width="match_parent"
-                android:layout_height="540dp" />
+                android:layout_height="120dp"
+                android:background="#FFFFFF"
+                android:backgroundTint="#A9F3ED"
+                android:gravity="center_horizontal|center_vertical">
+
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width="107dp"
+                    android:layout_height="48dp"
+                    android:minHeight="32dp"
+                    android:text="Switch" />
+
+            </RelativeLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/main_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </RelativeLayout>
+            </ScrollView>
+
         </LinearLayout>
 
     </FrameLayout>

@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.sapper.R
 import com.example.sapper.databinding.FragmentMainGameBinding
@@ -33,6 +34,14 @@ class MainGame : Fragment() {
     val viewModelFactory = SapperViewModelFactory(width, application)
     viewModel = ViewModelProvider(this, viewModelFactory)[SapperViewModel::class.java]
     addAllButtons()
+
+    binding.switch1.isChecked= viewModel.modeOpen.value!!
+    binding.switch1.setOnClickListener(){
+      viewModel.modeOpen.value = !viewModel.modeOpen.value!!
+    }
+
+
+
     return binding.root
   }
 
@@ -79,7 +88,10 @@ class MainGame : Fragment() {
 //    buttonDynamic.height = sapperCell.cellSize
 
     udpView(buttonDynamic, sapperCell)
-    setListener(buttonDynamic, sapperCell)
+    viewModel.modeOpen.observe(viewLifecycleOwner, Observer { newModeOpen ->
+      setListener(buttonDynamic, sapperCell, newModeOpen)
+    })
+
 
     view.addView(buttonDynamic)
 

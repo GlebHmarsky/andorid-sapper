@@ -6,7 +6,7 @@ import android.widget.Button
 import com.example.sapper.sapper.field.SapperCell
 
 fun udpView(button: Button, sapperCell: SapperCell) {
-
+  button.textSize = button.layoutParams.width * 0.17F
   if (sapperCell.isOpen) {
     button.isClickable = false
     button.setBackgroundColor(Color.TRANSPARENT)
@@ -27,21 +27,27 @@ fun udpView(button: Button, sapperCell: SapperCell) {
   }
 }
 
-
-fun setListener(button: Button, sapperCell: SapperCell) {
+fun setListener(button: Button, sapperCell: SapperCell, modeOpen: Boolean) {
   button.setOnClickListener() {
-    button.setBackgroundColor(Color.TRANSPARENT)
-    val gd = GradientDrawable()
-    gd.setStroke(6, Color.LTGRAY)
-    button.background = gd
     button.isClickable = false
     button.textSize = button.layoutParams.width * 0.17F
+    if (modeOpen) {
+      button.setBackgroundColor(Color.TRANSPARENT)
+      sapperCell.isOpen = true
 
-    if (sapperCell.isBomb) {
-      button.text = "B"
-      button.setTextColor(Color.RED)
-    } else if (sapperCell.bombsAroundCount != 0) {
-      button.text = sapperCell.bombsAroundCount.toString()
+      val gd = GradientDrawable()
+      gd.setStroke(6, Color.LTGRAY)
+      button.background = gd
+      if (sapperCell.isBomb) {
+        button.text = "B"
+        button.setTextColor(Color.RED)
+      } else if (sapperCell.bombsAroundCount != 0) {
+        button.text = sapperCell.bombsAroundCount.toString()
+      }
+    } else {
+      sapperCell.isFlagged = true
+      button.text = "F"
+      button.isClickable = false
     }
   }
 }
