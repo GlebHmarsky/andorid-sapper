@@ -13,11 +13,10 @@ import com.example.sapper.R
 import com.example.sapper.databinding.FragmentMainGameBinding
 import com.example.sapper.sapper.field.SapperField
 
-class SapperViewModel(application: Application) :
+class SapperViewModel(width: Int,application: Application) :
   AndroidViewModel(application) {
   lateinit var sapperField: SapperField
-  var width = 0
-  var height = 0
+  var width = width
 
   init {
     initial()

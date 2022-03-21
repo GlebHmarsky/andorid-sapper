@@ -1,6 +1,7 @@
 package com.example.sapper.game
 
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.Display
 import android.view.LayoutInflater
@@ -13,12 +14,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.sapper.R
 import com.example.sapper.databinding.FragmentMainGameBinding
+import com.example.sapper.sapper.field.SapperCell
 
 
 class MainGame : Fragment() {
   private lateinit var binding: FragmentMainGameBinding
-
-
   private lateinit var viewModel: SapperViewModel
 
   override fun onCreateView(
@@ -29,38 +29,36 @@ class MainGame : Fragment() {
 
     val application = requireNotNull(this.activity).application
 
-    getScreenSizes()
-
-    val viewModelFactory = SapperViewModelFactory(requireContext(), binding.mainRl, application)
-    viewModel = ViewModelProvider(this, viewModelFactory).get(SapperViewModel::class.java)
-
+    val width = getScreenSizes()
+    val viewModelFactory = SapperViewModelFactory(width, application)
+    viewModel = ViewModelProvider(this, viewModelFactory)[SapperViewModel::class.java]
+    addAllButtons()
     return binding.root
   }
 
-  private fun getScreenSizes() {
+  private fun getScreenSizes(): Int {
     val display: Display = requireActivity().windowManager.defaultDisplay
-    viewModel.width = display.width
-    viewModel.height = display.height
+    return display.width
+//    viewModel.height = display.height
   }
 
-//  fun addAllButtons(layout:RelativeLayout) {
-//    sapperField.addAllButtonsToLayout(layout)
-//  }
+  private fun addAllButtons() {
+    val field = viewModel.sapperField.field
+    for (i in field.indices) {
+      for (g in field[i].indices) {
+        val cell = field[i][g]
+        addButtonToView(cell)
+      }
+    }
+  }
 
-  // TODO: Change it (Separate logic?)
   private fun addButtonToView(
-    countHorizontal: Int,
-    countVertical: Int,
-    id: Int,
-    blockSize: Int
+    sapperCell: SapperCell,
   ) {
     val view = binding.mainRl
 
-    val pseudoMargin = 15
-    val buttonSize = blockSize - pseudoMargin
-
     val buttonDynamic = Button(context)
-    buttonDynamic.id = id
+    buttonDynamic.id = sapperCell.id
 
     buttonDynamic.setBackgroundColor(Color.LTGRAY)
     buttonDynamic.layoutParams = RelativeLayout.LayoutParams(
@@ -70,15 +68,18 @@ class MainGame : Fragment() {
 
     val param = buttonDynamic.layoutParams as ViewGroup.MarginLayoutParams
     param.setMargins(
-      ((buttonSize + pseudoMargin) * countVertical + pseudoMargin / 2),
-      ((buttonSize + pseudoMargin) * countHorizontal + pseudoMargin / 2),
+      sapperCell.topMargin,
+      sapperCell.leftMargin,
       0,
       0
     )
-    buttonDynamic.layoutParams.width = buttonSize
-    buttonDynamic.layoutParams.height = buttonSize
-    buttonDynamic.height = buttonSize
+    buttonDynamic.textSize = buttonDynamic.layoutParams.width * 0.17F
+    buttonDynamic.layoutParams.width = sapperCell.cellSize
+    buttonDynamic.layoutParams.height = sapperCell.cellSize
+//    buttonDynamic.height = sapperCell.cellSize
 
+    udpView(buttonDynamic, sapperCell)
+    setListener(buttonDynamic, sapperCell)
 
     view.addView(buttonDynamic)
 

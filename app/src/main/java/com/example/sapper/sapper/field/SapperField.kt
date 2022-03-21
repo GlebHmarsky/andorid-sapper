@@ -8,7 +8,7 @@ import android.widget.RelativeLayout
 import kotlin.random.Random
 
 class SapperField(width: Int, size: Int, bombs: Int) {
-  private lateinit var field: Array<Array<SapperCell>>
+  lateinit var field: Array<Array<SapperCell>>
   private var width = width
   private val size = size
   private val bombsCount = bombs
@@ -25,7 +25,6 @@ class SapperField(width: Int, size: Int, bombs: Int) {
   }
 
   private fun initField() {
-    val blockSize = width / size
     field = Array(size) {
       Array(size) {
         SapperCell()

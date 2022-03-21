@@ -8,13 +8,12 @@ import androidx.lifecycle.ViewModelProvider
 
 
 class SapperViewModelFactory(
-  private val context: Context,
-  private val layout: RelativeLayout,
+  private val width: Int,
   private val application: Application
 ) : ViewModelProvider.Factory {
   override fun <T : ViewModel> create(modelClass: Class<T>): T {
     if (modelClass.isAssignableFrom(SapperViewModel::class.java)) {
-      return SapperViewModel(context, layout, application) as T
+      return SapperViewModel(width,application) as T
     }
     throw IllegalArgumentException("Unknown ViewModel class")
   }
