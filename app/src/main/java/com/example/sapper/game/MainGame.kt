@@ -1,8 +1,8 @@
 package com.example.sapper.game
 
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,6 @@ import android.widget.Button
 import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.sapper.R
 import com.example.sapper.databinding.FragmentMainGameBinding
@@ -35,12 +34,10 @@ class MainGame : Fragment() {
     viewModel = ViewModelProvider(this, viewModelFactory)[SapperViewModel::class.java]
     addAllButtons()
 
-    binding.switch1.isChecked= viewModel.modeOpen.value!!
-    binding.switch1.setOnClickListener(){
+    binding.switch1.isChecked = viewModel.modeOpen.value!!
+    binding.switch1.setOnClickListener() {
       viewModel.modeOpen.value = !viewModel.modeOpen.value!!
     }
-
-
 
     return binding.root
   }
@@ -52,17 +49,23 @@ class MainGame : Fragment() {
   }
 
   private fun addAllButtons() {
-    val field = viewModel.sapperField.field
-    for (i in field.indices) {
-      for (g in field[i].indices) {
-        val cell = field[i][g]
-        addButtonToView(cell)
+    val view = binding.mainRl
+    view.removeAllViews()
+    val field = viewModel.sapperField.value?.field
+    if (field != null) {
+      for (i in field.indices) {
+        for (g in field[i].indices) {
+          val cell = field[i][g]
+          addButtonToView(cell, i, g)
+        }
       }
     }
   }
 
   private fun addButtonToView(
     sapperCell: SapperCell,
+    i: Int,
+    g: Int
   ) {
     val view = binding.mainRl
 
@@ -85,15 +88,17 @@ class MainGame : Fragment() {
     buttonDynamic.textSize = buttonDynamic.layoutParams.width * 0.17F
     buttonDynamic.layoutParams.width = sapperCell.cellSize
     buttonDynamic.layoutParams.height = sapperCell.cellSize
-//    buttonDynamic.height = sapperCell.cellSize
+//  buttonDynamic.height = sapperCell.cellSize
 
     udpView(buttonDynamic, sapperCell)
-    viewModel.modeOpen.observe(viewLifecycleOwner, Observer { newModeOpen ->
-      setListener(buttonDynamic, sapperCell, newModeOpen)
-    })
 
+    viewModel.modeOpen.observe(viewLifecycleOwner) { newModeOpen ->
+      setListener(
+        buttonDynamic, sapperCell, newModeOpen
+      ) { -> viewModel.sapperField.value?.openNeighborCells(i, g);addAllButtons() }
+      buttonDynamic.isClickable = !(sapperCell.isFlagged || sapperCell.isOpen)
+    }
 
     view.addView(buttonDynamic)
-
   }
 }

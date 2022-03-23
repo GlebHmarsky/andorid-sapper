@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RelativeLayout
+import androidx.lifecycle.LiveData
 import kotlin.random.Random
 
 class SapperField(width: Int, size: Int, bombs: Int) {
@@ -22,6 +23,10 @@ class SapperField(width: Int, size: Int, bombs: Int) {
     updField()
     setUpBombs()
     setUpNumericCells()
+  }
+
+  fun checkField(): Boolean {
+    return field.all { row -> row.all { it.isFlagged || it.isOpen } }
   }
 
   private fun initField() {
@@ -125,37 +130,26 @@ class SapperField(width: Int, size: Int, bombs: Int) {
     return bombCounter
   }
 
-  // TODO: Change it (Separate logic?)
-//  private fun createButton(
-//    countHorizontal: Int,
-//    countVertical: Int,
-//    id: Int,
-//    blockSize: Int
-//  ): Button {
-//    val pseudoMargin = 15
-//    val buttonSize = blockSize - pseudoMargin
-//
-//    val buttonDynamic = Button(context)
-//    buttonDynamic.id = id
-//
-//    buttonDynamic.setBackgroundColor(Color.LTGRAY)
-//    buttonDynamic.layoutParams = RelativeLayout.LayoutParams(
-//      RelativeLayout.LayoutParams.WRAP_CONTENT,
-//      ViewGroup.LayoutParams.WRAP_CONTENT
-//    )
-//
-//    val param = buttonDynamic.layoutParams as ViewGroup.MarginLayoutParams
-//    param.setMargins(
-//      ((buttonSize + pseudoMargin) * countVertical + pseudoMargin / 2),
-//      ((buttonSize + pseudoMargin) * countHorizontal + pseudoMargin / 2),
-//      0,
-//      0
-//    )
-//    buttonDynamic.layoutParams.width = buttonSize
-//    buttonDynamic.layoutParams.height = buttonSize
-//    buttonDynamic.height = buttonSize
-//
-//
-//    return buttonDynamic
-//  }
+  fun openNeighborCells(i: Int, g: Int) {
+    val up = i - 1
+    val down = i + 1
+    val left = g - 1
+    val right = g + 1
+
+    if (up >= 0) {
+      if (!field[up][g].isBomb) field[up][g].isOpen = true
+    }
+
+    if (down < size) {
+      if (!field[down][g].isBomb) field[down][g].isOpen = true
+    }
+
+    if (left >= 0) {
+      if (!field[i][left].isBomb) field[i][left].isOpen = true
+    }
+
+    if (right < size) {
+      if (!field[i][right].isBomb) field[i][right].isOpen = true
+    }
+  }
 }

@@ -2,6 +2,7 @@ package com.example.sapper.game
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 import android.widget.Button
 import com.example.sapper.sapper.field.SapperCell
 
@@ -22,12 +23,18 @@ fun udpView(button: Button, sapperCell: SapperCell) {
     }
   }
   if (sapperCell.isFlagged) {
+    button.isClickable = false
     button.text = "F"
     button.setTextColor(Color.RED)
   }
 }
 
-fun setListener(button: Button, sapperCell: SapperCell, modeOpen: Boolean) {
+fun setListener(
+  button: Button,
+  sapperCell: SapperCell,
+  modeOpen: Boolean,
+  callback: () -> Unit
+) {
   button.setOnClickListener() {
     button.isClickable = false
     button.textSize = button.layoutParams.width * 0.17F
@@ -47,7 +54,8 @@ fun setListener(button: Button, sapperCell: SapperCell, modeOpen: Boolean) {
     } else {
       sapperCell.isFlagged = true
       button.text = "F"
-      button.isClickable = false
     }
+
+    callback()
   }
 }
