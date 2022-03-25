@@ -21,10 +21,10 @@ class SapperViewModel(width: Int, application: Application) :
 
   var width = width
   val sapperField = MutableLiveData<SapperField>()
-
   var modeOpen = MutableLiveData<Boolean>(true)
+  var isGameShouldInit: Boolean = true
 
   init {
-    sapperField.value = SapperField(width, 5, 6)
+    sapperField.value = SapperField(width, 10, 15)
   }
 }

@@ -2,7 +2,6 @@ package com.example.sapper.game
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
@@ -62,6 +61,13 @@ class MainGame : Fragment() {
     }
   }
 
+  fun basicHandlerButton(i: Int, g: Int) {
+    if (viewModel.isGameShouldInit) {
+      viewModel.sapperField.value!!.startGame(i, g)
+      viewModel.isGameShouldInit = false
+    }
+  }
+
   private fun addButtonToView(
     sapperCell: SapperCell,
     i: Int,
@@ -90,13 +96,26 @@ class MainGame : Fragment() {
     buttonDynamic.layoutParams.height = sapperCell.cellSize
 //  buttonDynamic.height = sapperCell.cellSize
 
-    udpView(buttonDynamic, sapperCell)
+    udpView(buttonDynamic, sapperCell,requireContext())
 
     viewModel.modeOpen.observe(viewLifecycleOwner) { newModeOpen ->
       setListener(
         buttonDynamic, sapperCell, newModeOpen
-      ) { -> viewModel.sapperField.value?.openNeighborCells(i, g);addAllButtons() }
-      buttonDynamic.isClickable = !(sapperCell.isFlagged || sapperCell.isOpen)
+      ) {
+        basicHandlerButton(i, g)
+        if (newModeOpen && !sapperCell.isBomb) {
+          viewModel.sapperField.value?.openNeighborCells(i, g);
+        }
+        addAllButtons()
+      }
+//      buttonDynamic.isClickable = !((!newModeOpen && sapperCell.isFlagged) || sapperCell.isOpen)
+      if (newModeOpen) {
+        buttonDynamic.isClickable = !sapperCell.isOpen && !sapperCell.isFlagged
+      } else {
+        buttonDynamic.isClickable = true
+      }
+
+
     }
 
     view.addView(buttonDynamic)
