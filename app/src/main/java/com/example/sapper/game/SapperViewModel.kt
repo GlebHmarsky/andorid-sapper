@@ -10,7 +10,7 @@ class SapperViewModel(width: Int, application: Application) :
   AndroidViewModel(application) {
 
   val sapperField = MutableLiveData<SapperField>()
-  var modeOpen = MutableLiveData(ModeClick.OPEN)
+  var modeClick = MutableLiveData(ModeClick.OPEN)
   var isGameShouldInit: Boolean = true
 
   init {

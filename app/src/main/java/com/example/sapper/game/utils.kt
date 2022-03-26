@@ -46,13 +46,13 @@ fun udpView(button: Button, sapperCell: SapperCell, context: Context) {
 fun setListener(
   button: Button,
   sapperCell: SapperCell,
-  modeOpen: Boolean,
+  modeOpen: ModeClick,
   callback: () -> Unit
 ) {
   button.setOnClickListener() {
     button.isClickable = false
     button.textSize = button.layoutParams.width * 0.17F
-    if (modeOpen) {
+    if (modeOpen==ModeClick.OPEN) {
       button.setBackgroundColor(Color.TRANSPARENT)
       sapperCell.isOpen = true
 

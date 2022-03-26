@@ -33,9 +33,12 @@ class MainGame : Fragment() {
     viewModel = ViewModelProvider(this, viewModelFactory)[SapperViewModel::class.java]
     addAllButtons()
 
-    binding.switch1.isChecked = viewModel.modeOpen.value!!
+    binding.switch1.isChecked = viewModel.modeClick.value == ModeClick.OPEN
     binding.switch1.setOnClickListener() {
-      viewModel.modeOpen.value = !viewModel.modeOpen.value!!
+      viewModel.modeClick.value = when (viewModel.modeClick.value) {
+        ModeClick.OPEN -> ModeClick.FLAG
+        else -> ModeClick.OPEN
+      }
     }
 
     return binding.root
@@ -95,20 +98,20 @@ class MainGame : Fragment() {
     buttonDynamic.layoutParams.width = sapperCell.cellSize
     buttonDynamic.layoutParams.height = sapperCell.cellSize
 
-    udpView(buttonDynamic, sapperCell,requireContext())
+    udpView(buttonDynamic, sapperCell, requireContext())
 
-    viewModel.modeOpen.observe(viewLifecycleOwner) { newModeOpen ->
+    viewModel.modeClick.observe(viewLifecycleOwner) { newModeOpen ->
       setListener(
         buttonDynamic, sapperCell, newModeOpen
       ) {
         basicHandlerButton(i, g)
-        if (newModeOpen && !sapperCell.isBomb) {
+        if (newModeOpen == ModeClick.OPEN && !sapperCell.isBomb) {
           viewModel.sapperField.value?.openNeighborCells(i, g);
         }
         addAllButtons()
       }
 //      buttonDynamic.isClickable = !((!newModeOpen && sapperCell.isFlagged) || sapperCell.isOpen)
-      if (newModeOpen) {
+      if (newModeOpen == ModeClick.OPEN) {
         buttonDynamic.isClickable = !sapperCell.isOpen && !sapperCell.isFlagged
       } else {
         buttonDynamic.isClickable = true
