@@ -94,7 +94,6 @@ class MainGame : Fragment() {
     buttonDynamic.textSize = buttonDynamic.layoutParams.width * 0.17F
     buttonDynamic.layoutParams.width = sapperCell.cellSize
     buttonDynamic.layoutParams.height = sapperCell.cellSize
-//  buttonDynamic.height = sapperCell.cellSize
 
     udpView(buttonDynamic, sapperCell,requireContext())
 

@@ -33,9 +33,12 @@ fun udpView(button: Button, sapperCell: SapperCell, context: Context) {
     }
   }
   if (sapperCell.isFlagged) {
-    button.isClickable = false
-    button.text = "F"
-    button.setTextColor(Color.BLUE)
+    val img = context.resources.getDrawable(R.drawable.ic_flag)
+    img.setBounds(15, 0, 85, 90)
+    button.setCompoundDrawables(img, null, null, null)
+//    button.isClickable = false
+//    button.text = "F"
+//    button.setTextColor(Color.BLUE)
 
   }
 }
