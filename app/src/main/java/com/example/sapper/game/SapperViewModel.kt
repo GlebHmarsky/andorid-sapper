@@ -3,6 +3,7 @@ package com.example.sapper.game
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.example.sapper.enums.ModeClick
 import com.example.sapper.sapper.field.SapperField
 
 

@@ -1,4 +1,4 @@
-package com.example.sapper.game
+package com.example.sapper.enums
 
 enum class ModeClick {
   OPEN, FLAG

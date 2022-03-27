@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.sapper.R
 import com.example.sapper.databinding.FragmentMainGameBinding
+import com.example.sapper.enums.ModeClick
 import com.example.sapper.sapper.field.SapperCell
 
 
@@ -34,7 +35,7 @@ class MainGame : Fragment() {
     addAllButtons()
 
     binding.switch1.isChecked = viewModel.modeClick.value == ModeClick.OPEN
-    binding.switch1.setOnClickListener() {
+    binding.switch1.setOnClickListener {
       viewModel.modeClick.value = when (viewModel.modeClick.value) {
         ModeClick.OPEN -> ModeClick.FLAG
         else -> ModeClick.OPEN
@@ -64,7 +65,7 @@ class MainGame : Fragment() {
     }
   }
 
-  fun basicHandlerButton(i: Int, g: Int) {
+  private fun basicHandlerButton(i: Int, g: Int) {
     if (viewModel.isGameShouldInit) {
       viewModel.sapperField.value!!.startGame(i, g)
       viewModel.isGameShouldInit = false
@@ -100,22 +101,18 @@ class MainGame : Fragment() {
 
     udpView(buttonDynamic, sapperCell, requireContext())
 
-    viewModel.modeClick.observe(viewLifecycleOwner) { newModeOpen ->
+    viewModel.modeClick.observe(viewLifecycleOwner) { modeClick ->
       setListener(
-        buttonDynamic, sapperCell, newModeOpen
+        buttonDynamic, sapperCell, modeClick
       ) {
         basicHandlerButton(i, g)
-        if (newModeOpen == ModeClick.OPEN && !sapperCell.isBomb) {
-          viewModel.sapperField.value?.openNeighborCells(i, g);
+        if (modeClick == ModeClick.OPEN && !sapperCell.isBomb) {
+          viewModel.sapperField.value?.openCells(modeClick, i, g)
         }
         addAllButtons()
       }
-//      buttonDynamic.isClickable = !((!newModeOpen && sapperCell.isFlagged) || sapperCell.isOpen)
-      if (newModeOpen == ModeClick.OPEN) {
-        buttonDynamic.isClickable = !sapperCell.isOpen && !sapperCell.isFlagged
-      } else {
-        buttonDynamic.isClickable = true
-      }
+      buttonDynamic.isClickable =
+         ((modeClick == ModeClick.OPEN && !sapperCell.isFlagged) || modeClick == ModeClick.FLAG) && !sapperCell.isOpen
 
 
     }

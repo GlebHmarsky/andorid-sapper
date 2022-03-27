@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RelativeLayout
 import androidx.lifecycle.LiveData
+import com.example.sapper.enums.ModeClick
 import kotlin.random.Random
 
 class SapperField(width: Int, size: Int, bombs: Int) {
@@ -68,17 +69,16 @@ class SapperField(width: Int, size: Int, bombs: Int) {
     val right = originColumn + 1
 
     return ((up == targetRow && left == targetColumn) ||
-            (up == targetRow && originColumn == targetColumn )||
-            (up == targetRow && right == targetColumn )||
+            (up == targetRow && originColumn == targetColumn) ||
+            (up == targetRow && right == targetColumn) ||
 
-            (originRow == targetRow && left == targetColumn )||
-            (originRow == targetRow && originColumn == targetColumn )||
-            (originRow == targetRow && right == targetColumn )||
+            (originRow == targetRow && left == targetColumn) ||
+            (originRow == targetRow && originColumn == targetColumn) ||
+            (originRow == targetRow && right == targetColumn) ||
 
 
-
-            (down == targetRow && left == targetColumn )||
-            (down == targetRow && originColumn == targetColumn )||
+            (down == targetRow && left == targetColumn) ||
+            (down == targetRow && originColumn == targetColumn) ||
             (down == targetRow && right == targetColumn)
             )
   }
@@ -175,63 +175,74 @@ class SapperField(width: Int, size: Int, bombs: Int) {
     return bombCounter
   }
 
-  fun openNeighborCells(i: Int, g: Int) {
+  fun openCells(modeClick:ModeClick, i: Int, g: Int) {
+    field[i][g].isOpen = true
+    if(field[i][g].isBomb) {
+
+    }else{
+      if (modeClick == ModeClick.OPEN) {
+        openNeighborCells(i, g)
+      }
+    }
+  }
+
+  private fun openNeighborCells(i: Int, g: Int) {
     val up = i - 1
     val down = i + 1
     val left = g - 1
     val right = g + 1
-
     field[i][g].isOpen = true
-    if (field[i][g].bombsAroundCount == 0) {
+    if (field[i][g].bombsAroundCount != 0) {
+      return
+    }
 
-
-      if (up >= 0 && left >= 0) {
-        if (!field[up][left].isOpen) {
-          openNeighborCells(up, left)
-        }
-      }
-
-      if (up >= 0) {
-        if (!field[up][g].isOpen) {
-          openNeighborCells(up, g)
-        }
-      }
-
-      if (up >= 0 && right < size) {
-        if (!field[up][right].isOpen) {
-          openNeighborCells(up, right)
-        }
-      }
-
-      if (left >= 0) {
-        if (!field[i][left].isOpen) {
-          openNeighborCells(i, left)
-        }
-      }
-
-      if (right < size) {
-        if (!field[i][right].isOpen) {
-          openNeighborCells(i, right)
-        }
-      }
-
-      if (down < size && left >= 0) {
-        if (!field[down][left].isOpen) {
-          openNeighborCells(down, left)
-        }
-      }
-
-      if (down < size) {
-        if (!field[down][g].isOpen) {
-          openNeighborCells(down, g)
-        }
-      }
-
-      if (down < size && right < size) {
-        if (!field[down][right].isOpen) {
-          openNeighborCells(down, right)
-        }
+    if (up >= 0 && left >= 0) {
+      if (!field[up][left].isOpen) {
+        openNeighborCells(up, left)
       }
     }
+
+    if (up >= 0) {
+      if (!field[up][g].isOpen) {
+        openNeighborCells(up, g)
+      }
+    }
+
+    if (up >= 0 && right < size) {
+      if (!field[up][right].isOpen) {
+        openNeighborCells(up, right)
+      }
+    }
+
+    if (left >= 0) {
+      if (!field[i][left].isOpen) {
+        openNeighborCells(i, left)
+      }
+    }
+
+    if (right < size) {
+      if (!field[i][right].isOpen) {
+        openNeighborCells(i, right)
+      }
+    }
+
+    if (down < size && left >= 0) {
+      if (!field[down][left].isOpen) {
+        openNeighborCells(down, left)
+      }
+    }
+
+    if (down < size) {
+      if (!field[down][g].isOpen) {
+        openNeighborCells(down, g)
+      }
+    }
+
+    if (down < size && right < size) {
+      if (!field[down][right].isOpen) {
+        openNeighborCells(down, right)
+      }
+    }
+
   }
 }
