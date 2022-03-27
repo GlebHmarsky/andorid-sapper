@@ -175,15 +175,33 @@ class SapperField(width: Int, size: Int, bombs: Int) {
     return bombCounter
   }
 
-  fun openCells(modeClick:ModeClick, i: Int, g: Int) {
+  fun openCells(modeClick: ModeClick, i: Int, g: Int) {
     field[i][g].isOpen = true
-    if(field[i][g].isBomb) {
-
-    }else{
+    if (field[i][g].isBomb) {
+      openAllBombs()
+    } else {
       if (modeClick == ModeClick.OPEN) {
         openNeighborCells(i, g)
       }
     }
+  }
+
+  private fun openAllBombs() {
+    for (i in field.indices) {
+      for (g in field[i].indices) {
+        if (field[i][g].isBomb) {
+          field[i][g].isOpen = true
+        }
+      }
+    }
+
+//    field.map { row ->
+//      row.map {
+//        if (it.isBomb) {
+//          it.isOpen = true
+//        }
+//      }
+//    }
   }
 
   private fun openNeighborCells(i: Int, g: Int) {

@@ -106,9 +106,7 @@ class MainGame : Fragment() {
         buttonDynamic, sapperCell, modeClick
       ) {
         basicHandlerButton(i, g)
-        if (modeClick == ModeClick.OPEN && !sapperCell.isBomb) {
           viewModel.sapperField.value?.openCells(modeClick, i, g)
-        }
         addAllButtons()
       }
       buttonDynamic.isClickable =
