@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.format.DateUtils
 import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +14,11 @@ import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.sapper.R
 import com.example.sapper.databinding.FragmentMainGameBinding
 import com.example.sapper.enums.ModeClick
 import com.example.sapper.sapper.field.SapperCell
-import java.util.*
 
 
 class MainGame : Fragment() {
@@ -46,9 +46,10 @@ class MainGame : Fragment() {
       }
     }
 
-    binding.testNavigation.setOnClickListener {
-      Navigation.findNavController(it).navigate(R.id.action_mainGame_to_victoryFragment)
+    viewModel.secondsPass.observe(viewLifecycleOwner) { timePass ->
+      binding.timeText.text = DateUtils.formatElapsedTime(timePass.toLong())
     }
+
 
     return binding.root
   }
@@ -56,7 +57,6 @@ class MainGame : Fragment() {
   private fun getScreenSizes(): Int {
     val display: Display = requireActivity().windowManager.defaultDisplay
     return display.width
-//    viewModel.height = display.height
   }
 
   private fun addAllButtons() {
@@ -77,14 +77,16 @@ class MainGame : Fragment() {
     if (viewModel.isGameShouldInit) {
       viewModel.sapperField.value!!.startGame(i, g)
       viewModel.isGameShouldInit = false
+      viewModel.timerGo = true
+      viewModel.addSecond()
     }
   }
 
-  fun temp() {
+  private fun redirectWithDelay() {
     val handler = Handler(Looper.getMainLooper())
     handler.postDelayed({
-      Navigation.findNavController(requireView()).navigate(R.id.action_mainGame_to_loseFragment)
-    }, 1000)
+      findNavController().navigate(R.id.action_mainGame_to_loseFragment)
+    }, 2000)
 
   }
 
@@ -121,11 +123,11 @@ class MainGame : Fragment() {
       button.setOnClickListener {
         basicHandlerButton(i, g)
         viewModel.sapperField.value?.openCells(modeClick, i, g)
+        if (viewModel.sapperField.value!!.field[i][g].isBomb && modeClick == ModeClick.OPEN) {
+          redirectWithDelay()
+        }
         addAllButtons()
 
-        if (viewModel.sapperField.value!!.field[i][g].isBomb) {
-          temp()
-        }
         button.isClickable =
           ((modeClick == ModeClick.OPEN && !sapperCell.isFlagged) || modeClick == ModeClick.FLAG) && !sapperCell.isOpen
       }

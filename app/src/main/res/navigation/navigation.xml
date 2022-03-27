@@ -21,10 +21,14 @@
         tools:layout="@layout/fragment_main_game" >
         <action
             android:id="@+id/action_mainGame_to_victoryFragment"
-            app:destination="@id/victoryFragment" />
+            app:destination="@id/victoryFragment"
+            app:popUpTo="@id/titleFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_mainGame_to_loseFragment"
-            app:destination="@id/loseFragment" />
+            app:destination="@id/loseFragment"
+            app:popUpTo="@id/titleFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/loseFragment"
