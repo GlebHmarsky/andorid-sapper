@@ -176,6 +176,10 @@ class SapperField(width: Int, size: Int, bombs: Int) {
   }
 
   fun openCells(modeClick: ModeClick, i: Int, g: Int) {
+    if (modeClick == ModeClick.FLAG) {
+      field[i][g].isFlagged = !field[i][g].isFlagged
+      return
+    }
     field[i][g].isOpen = true
     if (field[i][g].isBomb) {
       openAllBombs()

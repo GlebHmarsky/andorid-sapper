@@ -3,4 +3,6 @@
     <string name="main_text">САПЕР</string>
     <string name="instuction">Instuction</string>
     <string name="play">play</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

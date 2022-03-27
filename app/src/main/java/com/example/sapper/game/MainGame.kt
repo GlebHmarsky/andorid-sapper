@@ -2,6 +2,8 @@ package com.example.sapper.game
 
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +13,12 @@ import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.example.sapper.R
 import com.example.sapper.databinding.FragmentMainGameBinding
 import com.example.sapper.enums.ModeClick
 import com.example.sapper.sapper.field.SapperCell
+import java.util.*
 
 
 class MainGame : Fragment() {
@@ -40,6 +44,10 @@ class MainGame : Fragment() {
         ModeClick.OPEN -> ModeClick.FLAG
         else -> ModeClick.OPEN
       }
+    }
+
+    binding.testNavigation.setOnClickListener {
+      Navigation.findNavController(it).navigate(R.id.action_mainGame_to_victoryFragment)
     }
 
     return binding.root
@@ -72,6 +80,14 @@ class MainGame : Fragment() {
     }
   }
 
+  fun temp() {
+    val handler = Handler(Looper.getMainLooper())
+    handler.postDelayed({
+      Navigation.findNavController(requireView()).navigate(R.id.action_mainGame_to_loseFragment)
+    }, 1000)
+
+  }
+
   private fun addButtonToView(
     sapperCell: SapperCell,
     i: Int,
@@ -79,42 +95,42 @@ class MainGame : Fragment() {
   ) {
     val view = binding.mainRl
 
-    val buttonDynamic = Button(context)
-    buttonDynamic.id = sapperCell.id
+    val button = Button(context)
+    button.id = sapperCell.id
 
-    buttonDynamic.setBackgroundColor(Color.LTGRAY)
-    buttonDynamic.layoutParams = RelativeLayout.LayoutParams(
+    button.setBackgroundColor(Color.LTGRAY)
+    button.layoutParams = RelativeLayout.LayoutParams(
       RelativeLayout.LayoutParams.WRAP_CONTENT,
       ViewGroup.LayoutParams.WRAP_CONTENT
     )
 
-    val param = buttonDynamic.layoutParams as ViewGroup.MarginLayoutParams
+    val param = button.layoutParams as ViewGroup.MarginLayoutParams
     param.setMargins(
       sapperCell.topMargin,
       sapperCell.leftMargin,
       0,
       0
     )
-    buttonDynamic.textSize = buttonDynamic.layoutParams.width * 0.17F
-    buttonDynamic.layoutParams.width = sapperCell.cellSize
-    buttonDynamic.layoutParams.height = sapperCell.cellSize
+    button.textSize = button.layoutParams.width * 0.17F
+    button.layoutParams.width = sapperCell.cellSize
+    button.layoutParams.height = sapperCell.cellSize
 
-    udpView(buttonDynamic, sapperCell, requireContext())
+    udpView(button, sapperCell, requireContext())
 
     viewModel.modeClick.observe(viewLifecycleOwner) { modeClick ->
-      setListener(
-        buttonDynamic, sapperCell, modeClick
-      ) {
+      button.setOnClickListener {
         basicHandlerButton(i, g)
-          viewModel.sapperField.value?.openCells(modeClick, i, g)
+        viewModel.sapperField.value?.openCells(modeClick, i, g)
         addAllButtons()
+
+        if (viewModel.sapperField.value!!.field[i][g].isBomb) {
+          temp()
+        }
+        button.isClickable =
+          ((modeClick == ModeClick.OPEN && !sapperCell.isFlagged) || modeClick == ModeClick.FLAG) && !sapperCell.isOpen
       }
-      buttonDynamic.isClickable =
-         ((modeClick == ModeClick.OPEN && !sapperCell.isFlagged) || modeClick == ModeClick.FLAG) && !sapperCell.isOpen
-
-
     }
+    view.addView(button)
 
-    view.addView(buttonDynamic)
   }
 }
