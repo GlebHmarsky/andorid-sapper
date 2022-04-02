@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/titleFragment"
         android:name="com.example.sapper.TitleFragment"
-        android:label="TitleFragment"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_title">
         <action
             android:id="@+id/action_titleFragment_to_mainGame"
@@ -17,8 +17,8 @@
     <fragment
         android:id="@+id/mainGame"
         android:name="com.example.sapper.game.MainGame"
-        android:label="fragment_main_game"
-        tools:layout="@layout/fragment_main_game" >
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_main_game">
         <action
             android:id="@+id/action_mainGame_to_victoryFragment"
             app:destination="@id/victoryFragment"
@@ -39,7 +39,7 @@
     <fragment
         android:id="@+id/loseFragment"
         android:name="com.example.sapper.LoseFragment"
-        android:label="fragment_lose"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_lose">
         <action
             android:id="@+id/action_loseFragment_to_titleFragment"
@@ -58,7 +58,7 @@
     <fragment
         android:id="@+id/victoryFragment"
         android:name="com.example.sapper.VictoryFragment"
-        android:label="fragment_victory"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_victory">
         <action
             android:id="@+id/action_victoryFragment_to_titleFragment"

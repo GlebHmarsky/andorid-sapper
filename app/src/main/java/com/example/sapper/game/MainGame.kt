@@ -60,7 +60,10 @@ class MainGame : Fragment() {
     viewModel.sapperField.value?.gameStatus?.observe(viewLifecycleOwner) { gameStatus ->
       Log.i("TAG", "in observe sapperField isFinished ${gameStatus}")
       if (gameStatus === GameStatus.LOSE) {
-        redirectWithDelay()
+        redirectWithDelayLose()
+      }
+      if (gameStatus === GameStatus.WIN) {
+        redirectWithDelayWin()
       }
     }
 
@@ -95,18 +98,22 @@ class MainGame : Fragment() {
     }
   }
 
-  private fun redirectWithDelay() {
+  private fun redirectWithDelayLose() {
     val handler = Handler(Looper.getMainLooper())
     handler.postDelayed({
       findNavController().navigate(
-        MainGameDirections.actionMainGameToLoseFragment(
-          viewModel.secondsPass.value!!,
-          2,
-          4
-        )
+        MainGameDirections.actionMainGameToLoseFragment(viewModel.secondsPass.value!!, 2, 4)
       )
     }, 1000)
+  }
 
+  private fun redirectWithDelayWin() {
+    val handler = Handler(Looper.getMainLooper())
+    handler.postDelayed({
+      findNavController().navigate(
+        MainGameDirections.actionMainGameToVictoryFragment(viewModel.secondsPass.value!!)
+      )
+    }, 1000)
   }
 
   private fun addButtonToView(
@@ -125,6 +132,10 @@ class MainGame : Fragment() {
       ViewGroup.LayoutParams.WRAP_CONTENT
     )
 
+
+    button.textSize = button.layoutParams.width * 0.17F
+    button.layoutParams.width = sapperCell.cellSize
+    button.layoutParams.height = sapperCell.cellSize
     val param = button.layoutParams as ViewGroup.MarginLayoutParams
     param.setMargins(
       sapperCell.topMargin,
@@ -132,10 +143,6 @@ class MainGame : Fragment() {
       0,
       0
     )
-    button.textSize = button.layoutParams.width * 0.17F
-    button.layoutParams.width = sapperCell.cellSize
-    button.layoutParams.height = sapperCell.cellSize
-
     udpView(button, sapperCell, requireContext())
 
     viewModel.modeClick.observe(viewLifecycleOwner) { modeClick ->

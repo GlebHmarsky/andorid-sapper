@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Сапер</string>
+    <string name="easy">Легкий</string>
+    <string name="medium">Средний</string>
+    <string name="hard">Сложный</string>
+    <string name="time">Время:</string>
+    <string name="you_win_text">Вы выиграли!</string>
+    <string name="you_lose_text">Вы проиграли</string>
+    <string name="flags_text">Флажки</string>
+    <string name="to_main">На главную</string>
+</resources>

@@ -44,7 +44,11 @@ class SapperField(width: Int, size: Int, bombs: Int) {
   }
 
   private fun updField() {
-    val blockSize = width / size
+    var blockSize = width / size
+    if (blockSize < 150) {
+      blockSize = 150
+    }
+
     var counter = 1
     for (i in 0 until size) {
       for (g in 0 until size) {
@@ -198,12 +202,9 @@ class SapperField(width: Int, size: Int, bombs: Int) {
    * Returns true if game is finished
    */
   fun checkField(): Boolean {
-    var flagCount = 0
-    field.forEach { row -> row.forEach { cell -> if (cell.isFlagged) flagCount++ } }
-    if (flagCount != bombsCount) {
-      return false
-    }
-    return field.all { row -> row.all { it.isFlagged || it.isOpen } }
+    var openCellsCount = 0
+    field.forEach { row -> row.forEach { cell -> if (cell.isOpen) openCellsCount++ } }
+    return openCellsCount == this.size * this.size - this.bombsCount
   }
 
 

@@ -22,19 +22,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:text="Easy" />
+                    android:text="@string/easy" />
 
                 <Button
                     android:id="@+id/buttonMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Medium" />
+                    android:text="@string/medium" />
 
                 <Button
                     android:id="@+id/buttonHard"
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:text="Hard" />
+                    android:text="@string/hard" />
 
             </LinearLayout>
 

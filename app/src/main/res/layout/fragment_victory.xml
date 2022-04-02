@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Вы выиграли!"
+            android:text="@string/you_win_text"
             android:textSize="34sp" />
 
         <LinearLayout
@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Время:"
+                android:text="@string/time"
                 android:textSize="34sp" />
 
             <TextView
@@ -43,9 +43,9 @@
 
         <Button
             android:id="@+id/buttonMain"
-            android:layout_width="wrap_content"
+            android:layout_width="144dp"
             android:layout_height="wrap_content"
-            android:text="На главную" />
+            android:text="@string/to_main" />
     </LinearLayout>
 
 </FrameLayout>

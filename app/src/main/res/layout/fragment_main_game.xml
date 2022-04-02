@@ -56,18 +56,23 @@
 
             </LinearLayout>
 
-            <ScrollView
-                android:id="@+id/mail_sv"
-                android:layout_width="match_parent"
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
-                <RelativeLayout
-                    android:id="@+id/main_rl"
+                <ScrollView
+                    android:id="@+id/mail_sv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                </RelativeLayout>
-            </ScrollView>
+                    <RelativeLayout
+                        android:id="@+id/main_rl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </RelativeLayout>
+                </ScrollView>
+            </HorizontalScrollView>
 
         </LinearLayout>
 
