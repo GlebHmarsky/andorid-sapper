@@ -1,19 +1,19 @@
 package com.example.sapper.sapper.field
 
-import android.content.Context
-import android.graphics.Color
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RelativeLayout
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.sapper.enums.ModeClick
 import kotlin.random.Random
+
+enum class GameStatus {
+  WIN, PLAYING, LOSE
+}
 
 class SapperField(width: Int, size: Int, bombs: Int) {
   lateinit var field: Array<Array<SapperCell>>
   private var width = width
   private val size = size
   private val bombsCount = bombs
+  val gameStatus = MutableLiveData(GameStatus.PLAYING)
 
   init {
     initField()
@@ -34,9 +34,6 @@ class SapperField(width: Int, size: Int, bombs: Int) {
     setUpNumericCells()
   }
 
-  fun checkField(): Boolean {
-    return field.all { row -> row.all { it.isFlagged || it.isOpen } }
-  }
 
   private fun initField() {
     field = Array(size) {
@@ -180,15 +177,35 @@ class SapperField(width: Int, size: Int, bombs: Int) {
       field[i][g].isFlagged = !field[i][g].isFlagged
       return
     }
+    if (field[i][g].isFlagged) {
+      return
+    }
     field[i][g].isOpen = true
     if (field[i][g].isBomb) {
       openAllBombs()
+      gameStatus.value = GameStatus.LOSE
     } else {
       if (modeClick == ModeClick.OPEN) {
         openNeighborCells(i, g)
       }
     }
+    if (checkField())
+      gameStatus.value = GameStatus.WIN
   }
+
+
+  /**
+   * Returns true if game is finished
+   */
+  fun checkField(): Boolean {
+    var flagCount = 0
+    field.forEach { row -> row.forEach { cell -> if (cell.isFlagged) flagCount++ } }
+    if (flagCount != bombsCount) {
+      return false
+    }
+    return field.all { row -> row.all { it.isFlagged || it.isOpen } }
+  }
+
 
   private fun openAllBombs() {
     for (i in field.indices) {

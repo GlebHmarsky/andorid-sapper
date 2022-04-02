@@ -19,12 +19,10 @@ class SapperViewModel(width: Int, application: Application) :
   var timerGo = false
 
   companion object {
-    val ONE_SECON = 1000
+    const val ONE_SECOND = 1000
   }
 
   init {
-
-
     sapperField.value = SapperField(width, 10, 15)
   }
 
@@ -35,6 +33,6 @@ class SapperViewModel(width: Int, application: Application) :
     handler.postDelayed({
       secondsPass.value = secondsPass.value?.plus(1)
       addSecond()
-    }, ONE_SECON.toLong())
+    }, ONE_SECOND.toLong())
   }
 }

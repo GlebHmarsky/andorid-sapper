@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.format.DateUtils
+import android.util.Log
 import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.sapper.R
 import com.example.sapper.databinding.FragmentMainGameBinding
 import com.example.sapper.enums.ModeClick
+import com.example.sapper.sapper.field.GameStatus
 import com.example.sapper.sapper.field.SapperCell
 
 
@@ -50,6 +52,12 @@ class MainGame : Fragment() {
       binding.timeText.text = DateUtils.formatElapsedTime(timePass.toLong())
     }
 
+    viewModel.sapperField.value?.gameStatus?.observe(viewLifecycleOwner) { gameStatus ->
+      Log.i("TAG", "in observe sapperField isFinished ${gameStatus}")
+      if (gameStatus === GameStatus.LOSE) {
+        redirectWithDelay()
+      }
+    }
 
     return binding.root
   }
@@ -85,8 +93,14 @@ class MainGame : Fragment() {
   private fun redirectWithDelay() {
     val handler = Handler(Looper.getMainLooper())
     handler.postDelayed({
-      findNavController().navigate(R.id.action_mainGame_to_loseFragment)
-    }, 2000)
+      findNavController().navigate(
+        MainGameDirections.actionMainGameToLoseFragment(
+          viewModel.secondsPass.value!!,
+          2,
+          4
+        )
+      )
+    }, 0)
 
   }
 
@@ -123,9 +137,9 @@ class MainGame : Fragment() {
       button.setOnClickListener {
         basicHandlerButton(i, g)
         viewModel.sapperField.value?.openCells(modeClick, i, g)
-        if (viewModel.sapperField.value!!.field[i][g].isBomb && modeClick == ModeClick.OPEN) {
-          redirectWithDelay()
-        }
+//        if (viewModel.sapperField.value!!.field[i][g].isBomb && modeClick == ModeClick.OPEN) {
+//          redirectWithDelay()
+//        }
         addAllButtons()
 
         button.isClickable =
