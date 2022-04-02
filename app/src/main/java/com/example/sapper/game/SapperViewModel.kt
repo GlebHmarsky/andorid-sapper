@@ -9,7 +9,7 @@ import com.example.sapper.enums.ModeClick
 import com.example.sapper.sapper.field.SapperField
 
 
-class SapperViewModel(width: Int, application: Application) :
+class SapperViewModel(private val width: Int, application: Application) :
   AndroidViewModel(application) {
 
   val sapperField = MutableLiveData<SapperField>()
@@ -23,7 +23,7 @@ class SapperViewModel(width: Int, application: Application) :
   }
 
   init {
-    sapperField.value = SapperField(width, 10, 15)
+
   }
 
   fun addSecond() {
@@ -34,5 +34,10 @@ class SapperViewModel(width: Int, application: Application) :
       secondsPass.value = secondsPass.value?.plus(1)
       addSecond()
     }, ONE_SECOND.toLong())
+  }
+
+  fun initField(size: Int, bombs: Int) {
+    sapperField.value = SapperField(width, size, bombs)
+
   }
 }

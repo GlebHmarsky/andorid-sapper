@@ -16,6 +16,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.sapper.R
 import com.example.sapper.databinding.FragmentMainGameBinding
 import com.example.sapper.enums.ModeClick
@@ -38,6 +39,10 @@ class MainGame : Fragment() {
     val width = getScreenSizes()
     val viewModelFactory = SapperViewModelFactory(width, application)
     viewModel = ViewModelProvider(this, viewModelFactory)[SapperViewModel::class.java]
+
+    val mainGameProps by navArgs<MainGameArgs>()
+    viewModel.initField(mainGameProps.size, mainGameProps.bombs)
+
     addAllButtons()
 
     binding.switch1.isChecked = viewModel.modeClick.value == ModeClick.OPEN
@@ -100,7 +105,7 @@ class MainGame : Fragment() {
           4
         )
       )
-    }, 0)
+    }, 1000)
 
   }
 

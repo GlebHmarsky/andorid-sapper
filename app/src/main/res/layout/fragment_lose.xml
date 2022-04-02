@@ -53,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Флаги:"
+                    android:text="Флажки:"
                     android:textSize="34sp" />
 
                 <TextView
