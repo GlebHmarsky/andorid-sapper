@@ -12,7 +12,8 @@ class SapperField(width: Int, size: Int, bombs: Int) {
   lateinit var field: Array<Array<SapperCell>>
   private var width = width
   private val size = size
-  private val bombsCount = bombs
+  val bombsCount = bombs
+  val flagsCount = MutableLiveData(0)
   val gameStatus = MutableLiveData(GameStatus.PLAYING)
 
   init {
@@ -179,11 +180,20 @@ class SapperField(width: Int, size: Int, bombs: Int) {
   fun openCells(modeClick: ModeClick, i: Int, g: Int) {
     if (modeClick == ModeClick.FLAG) {
       field[i][g].isFlagged = !field[i][g].isFlagged
+
+      if (field[i][g].isFlagged) {
+        flagsCount.value = flagsCount.value?.plus(1)
+      } else {
+        flagsCount.value = flagsCount.value?.minus(1)
+      }
+
       return
     }
+
     if (field[i][g].isFlagged) {
       return
     }
+
     field[i][g].isOpen = true
     if (field[i][g].isBomb) {
       openAllBombs()

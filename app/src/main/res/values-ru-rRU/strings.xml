@@ -9,4 +9,6 @@
     <string name="you_lose_text">Вы проиграли</string>
     <string name="flags_text">Флажки</string>
     <string name="to_main">На главную</string>
+    <string name="set_flag_text">Флаг</string>
+    <string name="open_cell_text">Открыть</string>
 </resources>

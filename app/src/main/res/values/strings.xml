@@ -8,4 +8,6 @@
     <string name="you_lose_text">You lose</string>
     <string name="flags_text">Flags:</string>
     <string name="to_main">To main</string>
+    <string name="set_flag_text">Flag</string>
+    <string name="open_cell_text">Open</string>
 </resources>

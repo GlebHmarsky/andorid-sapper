@@ -45,6 +45,10 @@ class MainGame : Fragment() {
 
     addAllButtons()
 
+    viewModel.sapperField.value!!.flagsCount.observe(viewLifecycleOwner) { flagsCount ->
+      binding.bombsText.text = (viewModel.sapperField.value!!.bombsCount - flagsCount).toString()
+    }
+
     binding.switch1.isChecked = viewModel.modeClick.value == ModeClick.OPEN
     binding.switch1.setOnClickListener {
       viewModel.modeClick.value = when (viewModel.modeClick.value) {
@@ -149,13 +153,14 @@ class MainGame : Fragment() {
       button.setOnClickListener {
         basicHandlerButton(i, g)
         viewModel.sapperField.value?.openCells(modeClick, i, g)
-//        if (viewModel.sapperField.value!!.field[i][g].isBomb && modeClick == ModeClick.OPEN) {
-//          redirectWithDelay()
-//        }
         addAllButtons()
 
-        button.isClickable =
-          ((modeClick == ModeClick.OPEN && !sapperCell.isFlagged) || modeClick == ModeClick.FLAG) && !sapperCell.isOpen
+        if (sapperCell.isOpen) {
+          button.isClickable = false
+        } else {
+          button.isClickable =
+            ((modeClick == ModeClick.OPEN && !sapperCell.isFlagged) || modeClick == ModeClick.FLAG) /*&& !sapperCell.isOpen*/
+        }
       }
     }
     view.addView(button)
