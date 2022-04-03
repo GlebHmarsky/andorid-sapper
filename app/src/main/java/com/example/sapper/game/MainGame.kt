@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -41,11 +42,13 @@ class MainGame : Fragment() {
     viewModel = ViewModelProvider(this, viewModelFactory)[SapperViewModel::class.java]
 
     val mainGameProps by navArgs<MainGameArgs>()
-    viewModel.initField(mainGameProps.size, mainGameProps.bombs)
 
+    if (viewModel.isGameShouldInit.value == true) {
+      viewModel.initField(mainGameProps.size, mainGameProps.bombs)
+    }
     addAllButtons()
 
-    viewModel.sapperField.value!!.flagsCount.observe(viewLifecycleOwner) { flagsCount ->
+    viewModel.sapperField.value?.flagsCount?.observe(viewLifecycleOwner) { flagsCount ->
       binding.bombsText.text = (viewModel.sapperField.value!!.bombsCount - flagsCount).toString()
     }
 
@@ -94,30 +97,42 @@ class MainGame : Fragment() {
   }
 
   private fun basicHandlerButton(i: Int, g: Int) {
-    if (viewModel.isGameShouldInit) {
+    if (viewModel.isGameShouldInit.value!!) {
       viewModel.sapperField.value!!.startGame(i, g)
-      viewModel.isGameShouldInit = false
+      viewModel.isGameShouldInit.value = false
       viewModel.timerGo = true
       viewModel.addSecond()
     }
   }
 
   private fun redirectWithDelayLose() {
+    viewModel.timerGo = false
+    Toast.makeText(
+      requireNotNull(this.activity).application,
+      "Вы проиграли :( Через 5 сек будуете перенаправлены.",
+      Toast.LENGTH_SHORT
+    ).show()
     val handler = Handler(Looper.getMainLooper())
     handler.postDelayed({
       findNavController().navigate(
         MainGameDirections.actionMainGameToLoseFragment(viewModel.secondsPass.value!!, 2, 4)
       )
-    }, 1000)
+    }, 5000)
   }
 
   private fun redirectWithDelayWin() {
+    viewModel.timerGo = false
+    Toast.makeText(
+      requireNotNull(this.activity).application,
+      "Вы выиграли! Через 5 сек будуете перенаправлены.",
+      Toast.LENGTH_SHORT
+    ).show()
     val handler = Handler(Looper.getMainLooper())
     handler.postDelayed({
       findNavController().navigate(
         MainGameDirections.actionMainGameToVictoryFragment(viewModel.secondsPass.value!!)
       )
-    }, 1000)
+    }, 5000)
   }
 
   private fun addButtonToView(
@@ -156,14 +171,9 @@ class MainGame : Fragment() {
             basicHandlerButton(i, g)
             viewModel.sapperField.value?.openCells(modeClick, i, g)
             addAllButtons()
-
-            if (sapperCell.isOpen) {
-              button.isClickable = false
-            } else {
-              button.isClickable =
-                ((modeClick == ModeClick.OPEN && !sapperCell.isFlagged) || modeClick == ModeClick.FLAG) /*&& !sapperCell.isOpen*/
-            }
           }
+          button.isClickable =
+            ((modeClick == ModeClick.OPEN && !sapperCell.isFlagged) || modeClick == ModeClick.FLAG) && !sapperCell.isOpen
         }
     }
     view.addView(button)

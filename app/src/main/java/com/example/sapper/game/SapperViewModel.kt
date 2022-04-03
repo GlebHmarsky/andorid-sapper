@@ -14,7 +14,7 @@ class SapperViewModel(private val width: Int, application: Application) :
 
   val sapperField = MutableLiveData<SapperField>()
   var modeClick = MutableLiveData(ModeClick.OPEN)
-  var isGameShouldInit: Boolean = true
+  var isGameShouldInit = MutableLiveData(true)
   val secondsPass = MutableLiveData(0)
   var timerGo = false
 

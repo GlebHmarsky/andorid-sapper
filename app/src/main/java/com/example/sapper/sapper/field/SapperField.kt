@@ -226,14 +226,6 @@ class SapperField(width: Int, size: Int, bombs: Int) {
         }
       }
     }
-
-//    field.map { row ->
-//      row.map {
-//        if (it.isBomb) {
-//          it.isOpen = true
-//        }
-//      }
-//    }
   }
 
   private fun openNeighborCells(i: Int, g: Int) {
