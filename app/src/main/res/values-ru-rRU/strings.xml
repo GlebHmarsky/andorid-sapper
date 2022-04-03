@@ -7,8 +7,11 @@
     <string name="time">Время:</string>
     <string name="you_win_text">Вы выиграли!</string>
     <string name="you_lose_text">Вы проиграли</string>
-    <string name="flags_text">Флажки</string>
+    <string name="flags_text">Флажки:</string>
     <string name="to_main">На главную</string>
     <string name="set_flag_text">Флаг</string>
     <string name="open_cell_text">Открыть</string>
+    <string name="correct_flags_text">Правильные флажки:</string>
+    <string name="win_text">Вы выиграли! Через 5 сек будуете перенаправлены.</string>
+    <string name="lose_text">Вы проиграли :( Через 5 сек будуете перенаправлены.</string>
 </resources>

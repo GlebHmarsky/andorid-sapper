@@ -109,13 +109,17 @@ class MainGame : Fragment() {
     viewModel.timerGo = false
     Toast.makeText(
       requireNotNull(this.activity).application,
-      "Вы проиграли :( Через 5 сек будуете перенаправлены.",
-      Toast.LENGTH_SHORT
+      requireContext().resources.getString(R.string.lose_text),
+      Toast.LENGTH_LONG
     ).show()
     val handler = Handler(Looper.getMainLooper())
     handler.postDelayed({
       findNavController().navigate(
-        MainGameDirections.actionMainGameToLoseFragment(viewModel.secondsPass.value!!, 2, 4)
+        MainGameDirections.actionMainGameToLoseFragment(
+          viewModel.secondsPass.value!!,
+          viewModel.sapperField.value!!.getCountFlags(),
+          viewModel.sapperField.value!!.getCountCorrectFlags()
+        )
       )
     }, 5000)
   }
@@ -124,8 +128,8 @@ class MainGame : Fragment() {
     viewModel.timerGo = false
     Toast.makeText(
       requireNotNull(this.activity).application,
-      "Вы выиграли! Через 5 сек будуете перенаправлены.",
-      Toast.LENGTH_SHORT
+      requireContext().resources.getString(R.string.win_text),
+      Toast.LENGTH_LONG
     ).show()
     val handler = Handler(Looper.getMainLooper())
     handler.postDelayed({

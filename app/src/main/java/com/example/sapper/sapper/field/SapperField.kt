@@ -228,6 +228,18 @@ class SapperField(width: Int, size: Int, bombs: Int) {
     }
   }
 
+  fun getCountFlags(): Int {
+    var count = 0
+    field.forEach { row -> row.forEach { cell -> if (cell.isFlagged) count++ } }
+    return count
+  }
+
+  fun getCountCorrectFlags(): Int {
+    var count = 0
+    field.forEach { row -> row.forEach { cell -> if (cell.isFlagged && cell.isBomb) count++ } }
+    return count
+  }
+
   private fun openNeighborCells(i: Int, g: Int) {
     val up = i - 1
     val down = i + 1

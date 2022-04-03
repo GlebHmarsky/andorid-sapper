@@ -10,4 +10,7 @@
     <string name="to_main">To main</string>
     <string name="set_flag_text">Flag</string>
     <string name="open_cell_text">Open</string>
+    <string name="correct_flags_text">Correct flags:</string>
+    <string name="win_text">You WIN! You will be redirected in 5 sec</string>
+    <string name="lose_text">You lose :( You will be redirected in 5 sec</string>
 </resources>

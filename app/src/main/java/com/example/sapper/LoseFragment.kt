@@ -24,6 +24,7 @@ class LoseFragment : Fragment() {
     binding.timeText.text =
       DateUtils.formatElapsedTime(gameContentFragmentArgs.time.toLong()).toString()
     binding.flagText.text = gameContentFragmentArgs.flagsSetted.toString()
+    binding.correctFlagsText.text = gameContentFragmentArgs.flagsCorrect.toString()
 
     binding.buttonMain.setOnClickListener {
       Navigation.findNavController(it).navigate(R.id.action_loseFragment_to_titleFragment)
