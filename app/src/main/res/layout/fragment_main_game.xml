@@ -42,9 +42,11 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:gravity="center_horizontal">
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="#FFFFFF"
+                    android:gravity="center_horizontal"
+                    android:padding="4dp">
 
                     <TextView
                         android:id="@+id/textView4"
@@ -60,15 +62,21 @@
 
                     <Switch
                         android:id="@+id/switch1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:minHeight="32dp"
-                        android:splitTrack="false" />
+                        android:layout_width="55dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="3dp"
+                        android:scaleX="1.5"
+                        android:scaleY="1.5"
+                        android:splitTrack="false"
+                        android:textColorHighlight="#F49127"
+                        android:textColorLink="#94FBB6"
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textView5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:text="@string/open_cell_text"
                         android:textColor="#000000"
@@ -78,7 +86,7 @@
                 <RelativeLayout
                     android:layout_width="70dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="15dp"
                     android:background="#FFFFFF"
                     android:gravity="center_horizontal|center_vertical">
 

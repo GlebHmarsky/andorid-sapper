@@ -213,7 +213,7 @@ class SapperField(width: Int, size: Int, bombs: Int) {
    */
   fun checkField(): Boolean {
     var openCellsCount = 0
-    field.forEach { row -> row.forEach { cell -> if (cell.isOpen) openCellsCount++ } }
+    field.forEach { row -> row.forEach { cell -> if (cell.isOpen && !cell.isBomb) openCellsCount++ } }
     return openCellsCount == this.size * this.size - this.bombsCount
   }
 

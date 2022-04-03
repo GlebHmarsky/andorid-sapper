@@ -20,13 +20,13 @@ class VictoryFragment : Fragment() {
   ): View? {
 
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_victory, container, false)
-    val gameContentFragmentArgs by navArgs<LoseFragmentArgs>()
+    val gameContentFragmentArgs by navArgs<VictoryFragmentArgs>()
 
     binding.timeText.text =
       DateUtils.formatElapsedTime(gameContentFragmentArgs.time.toLong()).toString()
 
     binding.buttonMain.setOnClickListener {
-      Navigation.findNavController(it).navigate(R.id.action_loseFragment_to_titleFragment)
+      Navigation.findNavController(it).navigate(R.id.action_victoryFragment_to_titleFragment)
     }
     return binding.root
   }

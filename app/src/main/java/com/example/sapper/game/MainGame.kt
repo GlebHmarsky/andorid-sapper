@@ -63,10 +63,10 @@ class MainGame : Fragment() {
 
     viewModel.sapperField.value?.gameStatus?.observe(viewLifecycleOwner) { gameStatus ->
       Log.i("TAG", "in observe sapperField isFinished ${gameStatus}")
-      if (gameStatus === GameStatus.LOSE) {
+      if (gameStatus == GameStatus.LOSE) {
         redirectWithDelayLose()
       }
-      if (gameStatus === GameStatus.WIN) {
+      if (gameStatus == GameStatus.WIN) {
         redirectWithDelayWin()
       }
     }
@@ -149,19 +149,22 @@ class MainGame : Fragment() {
     )
     udpView(button, sapperCell, requireContext())
 
-    viewModel.modeClick.observe(viewLifecycleOwner) { modeClick ->
-      button.setOnClickListener {
-        basicHandlerButton(i, g)
-        viewModel.sapperField.value?.openCells(modeClick, i, g)
-        addAllButtons()
+    viewModel.sapperField.value!!.gameStatus.observe(viewLifecycleOwner) { gameStatus ->
+      if (gameStatus == GameStatus.PLAYING)
+        viewModel.modeClick.observe(viewLifecycleOwner) { modeClick ->
+          button.setOnClickListener {
+            basicHandlerButton(i, g)
+            viewModel.sapperField.value?.openCells(modeClick, i, g)
+            addAllButtons()
 
-        if (sapperCell.isOpen) {
-          button.isClickable = false
-        } else {
-          button.isClickable =
-            ((modeClick == ModeClick.OPEN && !sapperCell.isFlagged) || modeClick == ModeClick.FLAG) /*&& !sapperCell.isOpen*/
+            if (sapperCell.isOpen) {
+              button.isClickable = false
+            } else {
+              button.isClickable =
+                ((modeClick == ModeClick.OPEN && !sapperCell.isFlagged) || modeClick == ModeClick.FLAG) /*&& !sapperCell.isOpen*/
+            }
+          }
         }
-      }
     }
     view.addView(button)
 
