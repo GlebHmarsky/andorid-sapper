@@ -19,7 +19,6 @@ class SapperField(width: Int, size: Int, bombs: Int) {
   init {
     initField()
     updField()
-//    startGame(0, 0)
   }
 
   fun startGame(

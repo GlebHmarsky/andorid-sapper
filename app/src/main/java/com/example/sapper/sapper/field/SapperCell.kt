@@ -1,12 +1,8 @@
 package com.example.sapper.sapper.field
 
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
-import android.widget.Button
-
-class SapperCell() {
-  var id: Int = 0;
-  var bombsAroundCount: Int = 0;
+class SapperCell {
+  var id: Int = 0
+  var bombsAroundCount: Int = 0
   var isBomb: Boolean = false
   var isOpen: Boolean = false
   var isFlagged: Boolean = false

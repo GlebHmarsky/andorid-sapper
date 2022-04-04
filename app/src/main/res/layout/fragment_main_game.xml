@@ -47,19 +47,18 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="45dp"
+                        android:layout_height="56dp"
                         android:layout_marginLeft="15dp"
                         android:background="#FFFFFF"
-                        android:gravity="center_horizontal"
+                        android:gravity="center_horizontal|center_vertical"
                         android:padding="4dp">
 
                         <TextView
                             android:id="@+id/textView4"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:inputType="textMultiLine|textImeMultiLine"
-                            android:lines="2"
                             android:nestedScrollingEnabled="false"
                             android:text="@string/set_flag_text"
                             android:textColor="#000000"
@@ -67,7 +66,7 @@
 
                         <Switch
                             android:id="@+id/switch1"
-                            android:layout_width="55dp"
+                            android:layout_width="59dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="3dp"
                             android:scaleX="1.5"
@@ -116,7 +115,8 @@
                 <ScrollView
                     android:id="@+id/mail_sv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
 
                     <RelativeLayout
                         android:id="@+id/main_rl"

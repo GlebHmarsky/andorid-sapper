@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.format.DateUtils
-import android.util.Log
 import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
@@ -65,7 +64,6 @@ class MainGame : Fragment() {
     }
 
     viewModel.sapperField.value?.gameStatus?.observe(viewLifecycleOwner) { gameStatus ->
-      Log.i("TAG", "in observe sapperField isFinished ${gameStatus}")
       if (gameStatus == GameStatus.LOSE) {
         redirectWithDelayLose()
       }
@@ -96,8 +94,8 @@ class MainGame : Fragment() {
     }
   }
 
-  private fun basicHandlerButton(i: Int, g: Int) {
-    if (viewModel.isGameShouldInit.value!!) {
+  private fun basicHandlerButton(modeClick: ModeClick, i: Int, g: Int) {
+    if (viewModel.isGameShouldInit.value!! && modeClick != ModeClick.FLAG) {
       viewModel.sapperField.value!!.startGame(i, g)
       viewModel.isGameShouldInit.value = false
       viewModel.timerGo = true
@@ -172,12 +170,14 @@ class MainGame : Fragment() {
       if (gameStatus == GameStatus.PLAYING)
         viewModel.modeClick.observe(viewLifecycleOwner) { modeClick ->
           button.setOnClickListener {
-            basicHandlerButton(i, g)
+            basicHandlerButton(modeClick, i, g)
             viewModel.sapperField.value?.openCells(modeClick, i, g)
             addAllButtons()
           }
           button.isClickable =
-            ((modeClick == ModeClick.OPEN && !sapperCell.isFlagged) || modeClick == ModeClick.FLAG) && !sapperCell.isOpen
+            ((modeClick == ModeClick.OPEN && !sapperCell.isFlagged) || modeClick == ModeClick.FLAG) &&
+                    !sapperCell.isOpen &&
+                    !(viewModel.isGameShouldInit.value!! && modeClick == ModeClick.FLAG)
         }
     }
     view.addView(button)
